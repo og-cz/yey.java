@@ -1,4 +1,4 @@
-# yey 
+# yey.java
 
 A plain-JDK REST backend for the Computer Science library catalog. No Maven/Gradle,
 no third-party libraries — just `javac`/`java` and the built-in `com.sun.net.httpserver`.
