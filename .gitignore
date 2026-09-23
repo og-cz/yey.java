@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.vite/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
