@@ -57,6 +57,10 @@ Details and file paths: [backend/README.md](backend/README.md).
 ## Status
 
 Working: catalog CRUD, search/filter, issue/return, overdue detection — all
-served by the Java backend, in-memory storage.
+served by the Java backend, in-memory storage. Catalog is scoped to Computer
+Science books: `category` is a closed set of CS subject areas, enforced
+server-side (`LibraryService.VALID_CATEGORIES`) and exposed via
+`GET /api/books/categories`, which the frontend uses to populate the Add/Edit
+dropdown instead of free text.
 
 Not done: Python comparative backend, persistent database, auth.
