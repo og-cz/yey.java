@@ -43,7 +43,8 @@ in `frontend/`.
 | Method | Path                          | Description                                   |
 |--------|-------------------------------|------------------------------------------------|
 | GET    | `/api/books?search=&status=`  | List/search/filter the catalog                 |
-| POST   | `/api/books`                  | Add a book                                      |
+| GET    | `/api/books/categories`       | The closed list of valid CS subject areas       |
+| POST   | `/api/books`                  | Add a book (category must be one of the above)  |
 | PUT    | `/api/books/{id}`              | Update a book                                   |
 | DELETE | `/api/books/{id}`              | Remove a book                                   |
 | POST   | `/api/books/{id}/issue`        | Issue a copy to a member, body `{member, studentId}` |
