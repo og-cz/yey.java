@@ -46,6 +46,10 @@ public class BooksHandler implements HttpHandler {
                 }
                 return;
             }
+            if (segments.length == 1 && "categories".equals(segments[0]) && "GET".equalsIgnoreCase(method)) {
+                HttpUtil.sendJson(exchange, 200, service.getCategories());
+                return;
+            }
             int id = Integer.parseInt(segments[0]);
             if (segments.length == 1) {
                 if ("PUT".equalsIgnoreCase(method)) {
