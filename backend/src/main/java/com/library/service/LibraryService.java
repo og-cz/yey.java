@@ -15,7 +15,9 @@ import com.library.repository.InMemoryTransactionRepository;
 
 import java.time.LocalDate;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -25,6 +27,25 @@ import java.util.stream.Collectors;
  */
 public class LibraryService {
     private static final int LOAN_PERIOD_DAYS = 14;
+
+    /**
+     * The catalog is scoped to Computer Science titles only (course
+     * requirement), so category is a closed set rather than free text.
+     */
+    private static final Set<String> VALID_CATEGORIES = new LinkedHashSet<>(List.of(
+            "Algorithms",
+            "Artificial Intelligence",
+            "Computer Networks",
+            "Cybersecurity",
+            "Data Structures",
+            "Databases",
+            "Human-Computer Interaction",
+            "Machine Learning",
+            "Operating Systems",
+            "Programming Languages",
+            "Software Engineering",
+            "Theory of Computation",
+            "Web Development"));
 
     private final InMemoryBookRepository bookRepository;
     private final InMemoryTransactionRepository transactionRepository;
@@ -37,9 +58,9 @@ public class LibraryService {
 
     /** Seeds a handful of Computer Science titles so the UI has data on first run. */
     public void seedSampleData() {
-        addBook(new BookRequest("The Design of Everyday Things", "Don Norman", "9780262525671",
-                "Basic Books", "Design", 1988,
-                "A foundational design book on usability and human behavior.", null));
+        addBook(new BookRequest("Artificial Intelligence: A Modern Approach", "Stuart Russell", "9780134610993",
+                "Pearson", "Artificial Intelligence", 2020,
+                "The standard textbook covering the foundations and techniques of AI.", null));
         addBook(new BookRequest("Introduction to Algorithms", "Thomas H. Cormen", "9780262046305",
                 "MIT Press", "Algorithms", 2022,
                 "The standard reference on algorithm design and analysis.", null));
@@ -50,8 +71,13 @@ public class LibraryService {
                 "Addison-Wesley", "Software Engineering", 1994,
                 "Elements of reusable object-oriented software.", null));
         addBook(new BookRequest("Computer Networking: A Top-Down Approach", "James Kurose", "9780133594140",
-                "Pearson", "Networking", 2016,
+                "Pearson", "Computer Networks", 2016,
                 "Covers networking concepts from the application layer down.", null));
+    }
+
+    /** The closed set of Computer Science subject areas books may be filed under. */
+    public List<String> getCategories() {
+        return List.copyOf(VALID_CATEGORIES);
     }
 
     public List<Book> searchBooks(String query, String statusFilter) {
@@ -157,6 +183,10 @@ public class LibraryService {
         }
         if (request.author() == null || request.author().isBlank()) {
             throw new ValidationException("Author is required");
+        }
+        if (request.category() == null || VALID_CATEGORIES.stream().noneMatch(c -> c.equalsIgnoreCase(request.category()))) {
+            throw new ValidationException(
+                    "Category must be a Computer Science subject area: " + String.join(", ", VALID_CATEGORIES));
         }
     }
 }
