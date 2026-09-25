@@ -52,6 +52,11 @@ function App() {
   const [issueTarget, setIssueTarget] = useState(null);
   const [issueForm, setIssueForm] = useState({ member: "", studentId: "" });
   const [catalogPage, setCatalogPage] = useState(1);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    apiFetch("/books/categories").then(setCategories).catch(() => {});
+  }, []);
 
   const loadBooks = async () => {
     setBooksError("");
@@ -376,11 +381,17 @@ function App() {
               />
             </label>
             <label>
-              Category
-              <input
+              Category <span className="required-mark">*</span>
+              <select
+                required
                 value={newBook.category}
                 onChange={(event) => setNewBook({ ...newBook, category: event.target.value })}
-              />
+              >
+                <option value="" disabled>Select a Computer Science subject area</option>
+                {categories.map((category) => (
+                  <option value={category} key={category}>{category}</option>
+                ))}
+              </select>
             </label>
             <label>
               Year published
@@ -459,11 +470,17 @@ function App() {
               />
             </label>
             <label>
-              Category
-              <input
+              Category <span className="required-mark">*</span>
+              <select
+                required
                 value={editBook.category}
                 onChange={(event) => setEditBook({ ...editBook, category: event.target.value })}
-              />
+              >
+                <option value="" disabled>Select a Computer Science subject area</option>
+                {categories.map((category) => (
+                  <option value={category} key={category}>{category}</option>
+                ))}
+              </select>
             </label>
             <label>
               Year published
